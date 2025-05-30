@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="main-body">
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="card">
+                        
+                            <div class="d-flex flex-column align-items-center text-center">
+                                <img id="profile-pic" src="https://bootdey.com/img/Content/avatar/avatar6.png"
+                                    alt="Admin" class="rounded-circle p-1 bg-primary" width="110">
+                                <div class="mt-3">
+                                    <h4 id="profile-name">name</h4>
+                                    <p class="text-secondary mb-1" id="profile-email">email</p>
+                                    <p class="text-muted font-size-sm" id="profile-phone">phone</p>
+                                </div>
+                                
+                            </div>
+                        
+                    </div>
+                </div>
+                <div class="col-lg-8">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="di">
+                            <div class="row mb-3">
+                                <div class="col-sm-3">
+                                    <h6 class="mb-0">Full Name</h6>
+                                </div>
+                                <div class="col-sm-9 text-secondary">
+                                    <input type="text" class="form-control" id="input-name"
+                                        placeholder="Enter full name">
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-sm-3">
+                                    <h6 class="mb-0">Email</h6>
+                                </div>
+                                <div class="col-sm-9 text-secondary">
+                                    <input type="email" class="form-control" id="input-email"
+                                        placeholder="abc@gmail.com">
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-sm-3">
+                                    <h6 class="mb-0">Phone</h6>
+                                </div>
+                                <div class="col-sm-9 text-secondary">
+                                    <input type="text" class="form-control" id="input-phone"
+                                        placeholder="Enter phone number">
+                                </div>
+                            </div>
+
+                            <label class="custom-upload-button" for="image-upload">Upload Image</label>
+                            <input type="file" id="image-upload" accept="image/*" onchange="changeProfileImage()">
+
+                            <div class="row">
+                                <div class="col-sm-3"></div>
+                                <div class="col-sm-9 text-secondary">
+                                    <input type="button" class="btn btn-primary px-4" id="btn" value="Submit"
+                                        onclick="updateProfile()">
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function updateProfile() {
+            var name = document.getElementById("input-name").value;
+            var email = document.getElementById("input-email").value;
+            var phone = document.getElementById("input-phone").value;
+
+            document.getElementById("profile-name").innerText = name;
+            document.getElementById("profile-email").innerText = email;
+            document.getElementById("profile-phone").innerText = phone;
+
+            localStorage.setItem("name", name);
+            localStorage.setItem("email", email);
+            localStorage.setItem("phone", phone);
+
+            var storedImage = localStorage.getItem("profileImage");
+            if (storedImage) {
+                document.getElementById("profile-pic").src = storedImage;
+            }
+        }
+
+        function loadProfile() {
+            var storedName = localStorage.getItem("name");
+            var storedEmail = localStorage.getItem("email");
+            var storedPhone = localStorage.getItem("phone");
+            var storedImage = localStorage.getItem("profileImage");
+
+            if (storedName) {
+                document.getElementById("profile-name").innerText = storedName;
+                
+            }
+            if (storedEmail) {
+                document.getElementById("profile-email").innerText = storedEmail;
+            }
+            if (storedPhone) {
+                document.getElementById("profile-phone").innerText = storedPhone;
+                
+            }
+            if (storedImage) {
+                document.getElementById("profile-pic").src = storedImage;
+            }
+        }
+
+        function changeProfileImage() {
+            var file = document.getElementById("image-upload").files[0];
+            var reader = new FileReader();
+            reader.onloadend = function () {
+                var base64String = reader.result;
+                document.getElementById("profile-pic").src = base64String;
+                localStorage.setItem("profileImage", base64String);
+            };
+            if (file) {
+                reader.readAsDataURL(file);
+            }
+        }
+
+        window.onload = loadProfile;
+    </script>
+</body>
+
+</html>
